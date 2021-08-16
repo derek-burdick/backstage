@@ -32,10 +32,12 @@ import {
   DatabaseManager,
   SingleHostDiscovery,
   UrlReaders,
+  useHotCleanup,
   useHotMemoize,
 } from '@backstage/backend-common';
 import { Config } from '@backstage/config';
 import healthcheck from './plugins/healthcheck';
+import { metricsHandler } from './metrics';
 import auth from './plugins/auth';
 import catalog from './plugins/catalog';
 import codeCoverage from './plugins/codecoverage';
@@ -124,6 +126,7 @@ async function main() {
   const service = createServiceBuilder(module)
     .loadConfig(config)
     .addRouter('', await healthcheck(healthcheckEnv))
+    .addRouter('', metricsHandler())
     .addRouter('/api', apiRouter)
     .addRouter('', await app(appEnv));
 
