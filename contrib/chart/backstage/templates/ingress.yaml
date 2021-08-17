@@ -15,7 +15,9 @@ metadata:
       if ($scheme = https) {
       add_header  Strict-Transport-Security "max-age=0;";
       }
-    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4}}
+    {{- end }}
 spec:
   tls:
     - secretName: {{ include "backstage.fullname" . }}-tls
@@ -76,7 +78,9 @@ metadata:
       if ($scheme = https) {
       add_header  Strict-Transport-Security "max-age=0;";
       }
-    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4}}
+    {{- end }}
 spec:
   tls:
     - secretName: {{ include "backstage.fullname" . }}-tls
